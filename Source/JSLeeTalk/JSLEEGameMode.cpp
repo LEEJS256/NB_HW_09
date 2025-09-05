@@ -37,8 +37,8 @@ void AJSLEEGameMode::BeginPlay()
 {
 	Super::BeginPlay();
 
-	// SecretNumber = GenerateRandomNumber();
-	SecretNumber= TEXT("456");
+	SecretNumber = GenerateRandomNumber();
+	//SecretNumber= TEXT("456");
 	
 	RuntimeSeconds  = 15.f;
 	MaxRuntimeSeconds = 15.f;
