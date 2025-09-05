@@ -33,7 +33,12 @@ public:
 
 	UFUNCTION(Client,Reliable)
 	void Client_ReceiveChatMessageString(const FString& InChatMessageString);
+
+
 	
+	void Set_NotificationText(FText InText);
+	void Set_SituationText(FText InText);
+	void Set_TimerText(FText InText);
 protected:
 	FString ChatMessage;
 	
@@ -49,8 +54,29 @@ protected:
 	UPROPERTY()
 	TObjectPtr<UUserWidget> NotificationTextWidgetInstance;
 
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> GameSituationWidgetClass;
+	
+	UPROPERTY()
+	TObjectPtr<UUserWidget> GameSituationWidgetInstance;
+
+	UPROPERTY(EditDefaultsOnly)
+	TSubclassOf<UUserWidget> TimerWidgetClass;
+	
+	UPROPERTY()
+	TObjectPtr<UUserWidget> TimerWidgetInstance;
+	
+
 public:
 	UPROPERTY(Replicated, BlueprintReadOnly)
 	FText NotificationText;
+
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	FText SituationText;
+
+	UPROPERTY(Replicated, BlueprintReadOnly)
+	FText TimerText;
+	
 	
 };

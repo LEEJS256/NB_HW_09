@@ -36,7 +36,7 @@ public:
 	void SetCurrentTurn(int32 ArgTurn)  {  CurrentPlayerTurn = ArgTurn; }
 
 	UFUNCTION(BlueprintCallable)
-	void AddCurrentTurn(int32 PlusTurn);
+	bool AddCurrentTurn(int32 PlusTurn);
 
 	UFUNCTION(BlueprintCallable)
 	int32 GetMaxTurns() const { return MaxPlayerTurn; }

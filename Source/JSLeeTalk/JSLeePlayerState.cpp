@@ -20,9 +20,16 @@ void AJSLeePlayerState::GetLifetimeReplicatedProps(TArray<FLifetimeProperty>& Ou
 	DOREPLIFETIME(ThisClass, MaxPlayerTurn);
 }
 
-void AJSLeePlayerState::AddCurrentTurn(int32 PlusTurn)
+bool  AJSLeePlayerState::AddCurrentTurn(int32 PlusTurn)
 {
+	bool bFinalTrun  = false;
 	CurrentPlayerTurn += PlusTurn;
-	if (CurrentPlayerTurn > MaxPlayerTurn)
-		CurrentPlayerTurn = MaxPlayerTurn;
+	
+	if (CurrentPlayerTurn >= MaxPlayerTurn)
+	{
+		CurrentPlayerTurn = 0;
+		bFinalTrun = true;
+	}
+	return bFinalTrun;
 }
+

@@ -2,8 +2,12 @@
 
 
 #include "JSLeeChatInput.h"
+
+#include "JSLEEGameMode.h"
 #include "Components/EditableTextBox.h"
 #include "JSLeePlayerController.h"
+#include "JSLeePlayerState.h"
+#include "Kismet/GameplayStatics.h"
 
 void UJSLeeChatInput::NativeConstruct()
 {
@@ -34,6 +38,25 @@ void UJSLeeChatInput::OnChatInputTextCommitted(const FText& Text, ETextCommit::T
 			AJSLeePlayerController* OwningJSLeePlayerController = Cast<AJSLeePlayerController>(OwningPlayerController);
 			if (IsValid(OwningJSLeePlayerController))
 			{
+				AJSLeePlayerState* JSLeePlayerState = OwningJSLeePlayerController->GetPlayerState<AJSLeePlayerState>();
+				bool bFinalTurn = JSLeePlayerState->AddCurrentTurn(1);
+
+				if (bFinalTurn)
+				{
+					AJSLEEGameMode* JSLeeGM = Cast<AJSLEEGameMode>(UGameplayStatics::GetGameMode(this));
+					if (IsValid(JSLeeGM) == true)
+					{
+						JSLeeGM->ResetGame();
+					}
+				}
+
+				FString FormattedString = FString::Printf(
+					TEXT("Recent turn/Maxturn : %d / %d"),
+					JSLeePlayerState->GetCurrentTurn(),
+					JSLeePlayerState->GetMaxTurns()
+				);
+				OwningJSLeePlayerController->Set_SituationText(FText::FromString(FormattedString));
+
 				OwningJSLeePlayerController->SetChatMessageString(Text.ToString());
 
 				EditableTextBox_ChatInput->SetText(FText());

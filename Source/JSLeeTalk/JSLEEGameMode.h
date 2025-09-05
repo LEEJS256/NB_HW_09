@@ -4,6 +4,7 @@
 
 #include "CoreMinimal.h"
 #include "GameFramework/GameMode.h"
+#include "Engine/TimerHandle.h"
 #include "JSLEEGameMode.generated.h"
 
 class AJSLeePlayerController;
@@ -29,10 +30,15 @@ public:
 	void JudgeGame(AJSLeePlayerController* InChattingPlayerController, int InStrikeCount);
 
 
+	void Reset_RunTime();
+	void Take_RunTime();
 	
 protected:
 	FString  SecretNumber;
 	TArray<TObjectPtr<AJSLeePlayerController>> AllPlayerControllers;
 	
-	
+	FTimerHandle RuntimeTimerHandle;
+
+	float RuntimeSeconds  = 15.f;
+	float MaxRuntimeSeconds = 15.f;
 };

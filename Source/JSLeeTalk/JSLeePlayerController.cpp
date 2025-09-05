@@ -51,12 +51,32 @@ void AJSLeePlayerController::BeginPlay()
 			NotificationTextWidgetInstance->AddToViewport();
 		}
 	}
+
+	if (IsValid(GameSituationWidgetClass))
+	{
+		GameSituationWidgetInstance = CreateWidget<UUserWidget>(this, GameSituationWidgetClass);
+		if (IsValid(GameSituationWidgetInstance) == true)
+		{
+			GameSituationWidgetInstance->AddToViewport();
+		}
+	}
+
+	if (IsValid(TimerWidgetClass))
+	{
+		TimerWidgetInstance = CreateWidget<UUserWidget>(this, TimerWidgetClass);
+		if (IsValid(TimerWidgetInstance) == true)
+		{
+			TimerWidgetInstance->AddToViewport();
+		}
+	}
 }
 
 void AJSLeePlayerController::GetLifetimeReplicatedProps(TArray<class FLifetimeProperty>& OutLifetimeProps) const
 {
 	Super::GetLifetimeReplicatedProps(OutLifetimeProps);
 	DOREPLIFETIME(ThisClass,NotificationText);
+	DOREPLIFETIME(ThisClass,SituationText);
+	DOREPLIFETIME(ThisClass,TimerText);
 }
 
 void AJSLeePlayerController::SetChatMessageString(const FString& InChatMessage)
@@ -78,6 +98,23 @@ void AJSLeePlayerController::SetChatMessageString(const FString& InChatMessage)
 void AJSLeePlayerController::PrintChatMessageString(const FString& InChatMessage)
 {
 	JSLeeTalkFunctionLibrary::MyPrintString(this, InChatMessage, 10.f);
+}
+
+void AJSLeePlayerController::Set_NotificationText(FText InText)
+{
+	NotificationText = InText;
+}
+
+
+
+void AJSLeePlayerController::Set_SituationText(FText InText)
+{
+	SituationText = InText;
+}
+
+void AJSLeePlayerController::Set_TimerText(FText InText)
+{
+	TimerText = InText;
 }
 
 void AJSLeePlayerController::Client_ReceiveChatMessageString_Implementation(const FString& InChatMessageString)
